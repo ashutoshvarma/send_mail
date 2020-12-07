@@ -143,13 +143,12 @@ def main(password: str, config_file: click.File):
         next(reader)  # skip header
 
         for row in reader:
-            name = row[config["name_column"]]
             email = row[config["recipients_column"]]
             html_template = config["html"]
             subject_template = config["subject"]
             subs = {k: row[v] for k, v in config["substitutes"].items()}
             try:
-                click.echo(f"Sending mail to [{name} <{email}>]")
+                click.echo(f"Sending mail to <{email}>")
                 msg = make_message(
                     email,
                     html_template,
