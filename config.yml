@@ -58,13 +58,13 @@ subject: My Email Subject - Hello $name !
 # sender name, display name on email client
 sender_name: My Sender Name
 # sender email
-sender_email: mysender@myserver.com
+sender_email: mysender@gmail.com
 
 # SMTP server address
-smtp_server: smtp.myserver.com
+smtp_server: smtp.gmail.com
 # SMTP server login username, if null/no then sender_email
 # will be used
-smtp_username: mysender@myserver.com
+smtp_username: mysender@gmail.com
 smtp_port: 465
 # Enable SSL/TLS support for SMTP server
 is_ssl: yes
