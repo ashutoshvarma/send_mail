@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 # Copyright (C) 2020 Ashutosh Varma
 #
 # This program is free software: you can redistribute it and/or modify
@@ -26,6 +27,8 @@ from typing import Dict
 
 import click
 import yaml
+
+__version__ = 1.0
 
 
 def setup_server(
@@ -100,7 +103,12 @@ def make_message(
     return msg
 
 
-@click.command(help="Send bulk personalised mail by options defined in CONFIG_FILE.")
+@click.group(
+    invoke_without_command=True,
+    no_args_is_help=True,
+    help="Send bulk personalised mail by options defined in CONFIG_FILE.",
+)
+@click.version_option(__version__)
 @click.option(
     "-p",
     "password",
