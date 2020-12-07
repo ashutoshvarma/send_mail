@@ -1,0 +1,80 @@
+# Copyright (C) 2020 Ashutosh Varma
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as
+# published by the Free Software Foundation, either version 3 of the
+# License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+###### SEND_MAIL CONFIG FILE ######
+# All properties are required, do not remove them.
+#
+# TEMPLATES
+# To substitute variables and files in templates append
+# `$` to variable and add its column number to 'substitutes'
+# or if it is a file add path to 'files' property.
+# Example:-
+#   Welcome $name !        =>     Welcome Harry !
+#   where,
+#   substitutes: { name: 1 }, 1 is the column from where value
+#   for $name is taken.
+# Example:-
+#   <img src="images/my.png"/>
+# If you have a img tag, referencing local file then
+#   <img src="$myimage"/>
+#   where,
+#   files:
+#     {
+#       myimage: images/my.png
+#     }
+
+# csv file with emails and other data for substitution
+# first line ignored for csv headers
+data_csv: customer_emails.csv
+# index starts from 0
+# column number for emails
+recipients_column: 0
+
+# add/remove variables for substitution
+substitutes: { name: 1, address: 2 }
+# add/remove files for attachment or for use in templates
+files:
+  {
+    file1: images/file1.png,
+    file2: attachments/data.zip,
+    file3: music/song.mp3,
+  }
+
+# subject template
+subject: My Email Subject - Hello $name !
+
+# sender name, display name on email client
+sender_name: My Sender Name
+# sender email
+sender_email: mysender@myserver.com
+
+# SMTP server address
+smtp_server: smtp.myserver.com
+# SMTP server login username, if null/no then sender_email
+# will be used
+smtp_username: mysender@myserver.com
+smtp_port: 465
+# Enable SSL/TLS support for SMTP server
+is_ssl: yes
+
+# HTML template
+html: >
+  "
+    <html>
+    <body>
+      <h1> Hello $name </h1>
+      <img src="$file1"/>
+    </body>
+  "
