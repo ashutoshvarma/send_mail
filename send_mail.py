@@ -1,3 +1,18 @@
+# Copyright (C) 2020 Ashutosh Varma
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as
+# published by the Free Software Foundation, either version 3 of the
+# License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 import csv
 import mimetypes
 import smtplib
@@ -5,10 +20,9 @@ import sys
 import traceback
 from email.message import EmailMessage
 from email.utils import make_msgid
-from os import read
 from pathlib import Path
 from string import Template
-from typing import Dict, List
+from typing import Dict
 
 import click
 import yaml
@@ -29,10 +43,6 @@ def setup_server(
     server = SMTP(smtp_server, smtp_port)
     server.login(smtp_username, smtp_password)
     return server
-
-
-# def send(html_body: str, recipient: str, subject: str, sender_name: str, server):
-#     pass
 
 
 def make_message(
@@ -90,44 +100,14 @@ def make_message(
     return msg
 
 
-# @click.command()
-# @click.argument("data_csv", envvar="DATA_CSV", type=click.File("r"))
-# def cli(
-#     data_csv: click.File,
-#     delimiter: str,
-#     recipients_column: int,
-#     mail_template: str,
-#     mail_arg_column: int,
-#     subject_template: str,
-#     sender_name: str,
-#     sender_email: str,
-#     smtp_username: str,
-#     smtp_server: str,
-#     smtp_password: str,
-#     is_ssl: bool,
-# ):
-#     if not smtp_username:
-#         smtp_username = sender_email
-#     click.echo(f"Connecting to SMTP server f{smtp_server}")
-#     server = setup_server(smtp_server, smtp_username, smtp_password, is_ssl)
-#     click.echo(f"Connected \n")
-
-#     reader = csv.reader(data_csv.read(), delimiter=delimiter)
-#     next(reader)  # skip header
-#     for row in reader:
-#         name = row[mail_arg_column]
-#         email = row[recipients_column]
-#         html_body = Template(mail_template).safe_substitute(name=name)
-#         subject = Template(subject_template).safe_substitute(name=name)
-#         try:
-#             click.echo(f"Sending mail to [{name} <{email}>]")
-#             send(html_body, email, subject, sender_name, server)
-#         except Exception as ex:
-#             click.echo(f"{ex}")
-
-
-@click.command()
-@click.option("-p", "password", envvar="SMTP_PASSWORD", required=True)
+@click.command(help="Send bulk personalised mail by options defined in CONFIG_FILE.")
+@click.option(
+    "-p",
+    "password",
+    envvar="SMTP_PASSWORD",
+    required=True,
+    help="Password for SMTP server. You can also set password by SMTP_PASSWORD env",
+)
 @click.argument("config_file", envvar="MAIL_CONFIG", type=click.File("r"))
 def main(password: str, config_file: click.File):
     # load config
