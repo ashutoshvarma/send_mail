@@ -66,9 +66,10 @@ def make_message(
     msg.set_content("Please update your mail client to view this message\n")
 
     cid_dict = {}
-    for key, value in files_copy.items():
+    for key, value in list(files_copy.items()):
         fpath = Path(value)
         if not fpath.is_file():
+            del files_copy[key]
             click.echo(f"{value} is not a file. Skipping it.")
             continue
 
